@@ -97,7 +97,7 @@
     -webkit-transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(360deg);
+    -webkit-transform: rotate(90deg);
   }
 }
 @keyframes spinX {
@@ -105,7 +105,7 @@
     transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(90deg);
   }
 }
 html,
@@ -282,14 +282,19 @@ body {
   display: block;
 }
 #overlay.spin #logo div:before {
-  -webkit-animation: spinX 3s infinite;
-  animation: spinX 3s infinite;
+  -webkit-animation: spinX 1s infinite;
+  animation: spinX 1s infinite;
 }
 #overlay.close:before {
+  background-position: center bottom;
   border-bottom: 3px solid #282828;
 }
 #overlay.close:after {
+  background-position: center top;
   border-top: 3px solid #282828;
+}
+#overlay.close #logo div:before {
+  background-image: none;
 }
 #overlay.open:before {
   height: 5vh;
