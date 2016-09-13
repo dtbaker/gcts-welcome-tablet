@@ -1,0 +1,317 @@
+@-webkit-keyframes scaleOut {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes scaleOut {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 0);
+    transform: scale3d(0, 0, 0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 0);
+    transform: scale3d(0, 0, 0);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@-webkit-keyframes bounceOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+    visibility: visible;
+  }
+  20% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+    visibility: hidden;
+  }
+}
+@keyframes bounceOut {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+    visibility: visible;
+  }
+  20% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes spinX {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spinX {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  background-image: url(gcts-background.png);
+  background-size: cover;
+  background-position: center;
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+}
+#forms {
+  position: absolute;
+  top: 12vh;
+  left: 0;
+  right: 0;
+  height: 76vh;
+  display: block;
+}
+#forms > ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: center;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  height: 100%;
+}
+#forms > ul > li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 0;
+  height: 0;
+  overflow: hidden;
+  transition: flex 600ms;
+}
+#forms > ul > li.added {
+  flex: 1;
+}
+#forms > ul > li.added.bigger {
+  flex-basis: 250px;
+}
+#forms > ul > li.bounce-in .content {
+  -webkit-animation: bounceIn 0.4s;
+  animation: bounceIn 0.4s;
+  opacity: 1 !important;
+}
+#forms > ul > li.bounce-out .content {
+  -webkit-animation: bounceOut 0.4s;
+  animation: bounceOut 0.4s;
+}
+#forms > ul > li > div {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+#forms > ul > li > div.message h2 {
+  font-size: 40px;
+  font-weight: normal;
+}
+#forms > ul > li > div.question {
+  text-align: center;
+}
+#forms > ul > li > div.question .wrap {
+  background-color: #333333;
+  padding: 43px;
+  border: 3px solid #222222;
+  border-radius: 10px;
+  display: inline-block;
+}
+#forms > ul > li > div.question .wrap h2 {
+  font-size: 40px;
+  margin: 0 0 30px;
+  padding: 0;
+}
+#forms > ul > li > div.question .wrap .answers button {
+  background: #EFEFEF;
+  border: 0;
+  padding: 15px 20px;
+  font-size: 33px;
+  font-family: Roboto;
+  border-radius: 6px;
+  margin: 0 10px;
+}
+#forms > ul > li > div > div.content {
+  display: table-cell;
+  vertical-align: middle;
+  opacity: 0;
+}
+#overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+}
+#overlay:before {
+  height: 50vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  content: '';
+  background-color: #1E201F;
+  display: block;
+  z-index: 1;
+  transition: height 1s;
+}
+#overlay:after {
+  height: 50vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  content: '';
+  background-color: #1E201F;
+  display: block;
+  z-index: 1;
+  transition: height 1s;
+}
+#overlay #logo {
+  transition: top 1s;
+  top: 50%;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
+#overlay #logo div {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-top: -100px;
+  display: inline-block;
+}
+#overlay #logo div:before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  content: '';
+  background-image: url(gcts-logo-round.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+}
+#overlay #logo div:after {
+  height: 60px;
+  top: 73px;
+  left: -34px;
+  right: -34px;
+  position: absolute;
+  content: '';
+  background-image: url(gcts-logo-center.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+}
+#overlay.spin #logo div:before {
+  -webkit-animation: spinX 3s infinite;
+  animation: spinX 3s infinite;
+}
+#overlay.close:before {
+  border-bottom: 3px solid #282828;
+}
+#overlay.close:after {
+  border-top: 3px solid #282828;
+}
+#overlay.open:before {
+  height: 5vh;
+  background-image: url(gcts-logo-round-top.png);
+  background-position: center bottom;
+  background-size: 200px auto;
+  background-repeat: no-repeat;
+  border-bottom: 3px solid #282828;
+}
+#overlay.open:after {
+  height: 5vh;
+  background-image: url(gcts-logo-round-bottom.png);
+  background-position: center top;
+  background-size: 200px auto;
+  background-repeat: no-repeat;
+  border-top: 3px solid #282828;
+}
+#overlay.open #logo {
+  top: 5%;
+}
+#overlay.open #logo div:before {
+  background-image: none;
+}
+.spinner {
+  -webkit-animation: scaleOut 0.7s infinite ease-in-out;
+  animation: scaleOut 0.7s infinite ease-in-out;
+  background: #83B04C;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 100px auto;
+}

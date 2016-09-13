@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkin</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet"  href="style.css">
+</head>
+<body>
+
+<div id="overlay">
+    <div id="logo">
+        <div></div>
+    </div>
+</div>
+
+<div id="forms">
+    <ul id="form-sections">
+
+    </ul>
+</div>
+
+<script type="html/tpl" id="form-section-template">
+	<li class="section">
+        <div class="message">
+            <div class="content">
+                <h2>{content}</h2>
+            </div>
+        </div>
+    </li>
+</script>
+
+<script type="html/tpl" id="form-section-question">
+	<li class="section bigger">
+        <div class="question">
+            <div class="content">
+                <div class="wrap">
+                    <h2>How Long Will You Be Here?</h2>
+                    <div class="answers timer-buttons">
+                        <button>Quick visit</button>
+                        <button>An hour or so</button>
+                        <button>A while</button>
+                        <button>Not Sure</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="chicken.js"></script>
+<script type="text/javascript">
+    TechSpaceChicken.init();
+</script>
+
+</body>
+</html>
