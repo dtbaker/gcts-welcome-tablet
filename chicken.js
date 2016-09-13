@@ -23,7 +23,7 @@ var TechSpaceChicken = (function () {
         $form_sections.find('li.section').addClass('bounce-out');
         setTimeout(function(){
             $form_sections.find('li.section').remove();
-        },400);
+        },390);
     }
     function timerClick(){
         // user chose a time they're going to be here for.
@@ -36,7 +36,7 @@ var TechSpaceChicken = (function () {
             setTimeout(function(){
                 closeOverlay();
             },2000);
-        },400);
+        },410);
     }
     function addMessage(message){
         var $message = $(template('form-section-template', {
