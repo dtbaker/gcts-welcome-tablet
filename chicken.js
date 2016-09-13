@@ -70,7 +70,7 @@ var TechSpaceChicken = (function () {
         setTimeout(function(){
             $overlay.removeClass('close');
             clearForms();
-        },400);
+        },1000);
     }
     function openOverlay(){
         if(opening)return;
@@ -85,7 +85,7 @@ var TechSpaceChicken = (function () {
             setTimeout(function(){
                 addTimer();
             },4000);
-        },3000);
+        },1000);
 
     }
     function registerClickEvents() {
