@@ -108,6 +108,22 @@
     transform: rotate(90deg);
   }
 }
+@-webkit-keyframes spinCC {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-90deg);
+  }
+}
+@keyframes spinCC {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
 html,
 body {
   margin: 0;
@@ -282,8 +298,12 @@ body {
   display: block;
 }
 #overlay.spin #logo div:before {
-  -webkit-animation: spinX 1s infinite;
-  animation: spinX 1s infinite;
+  -webkit-animation: spinX 1s;
+  animation: spinX 1s;
+}
+#overlay.spin-end #logo div:before {
+  -webkit-animation: spinCC 1s;
+  animation: spinCC 1s;
 }
 #overlay.close:before {
   background-position: center bottom;
