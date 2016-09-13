@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "GC TechSpace Check-in",
+  "description": "GC TechSpace Check-in",
+  "version": "1.1",
+  "icons": {
+    "128": "gcts-logo-round.png"
+  },
+  "app": {
+    "launch": {
+      "web_url": "https://dtbaker.github.io/gcts-welcome-tablet/"
+    }
+  },
+  "permissions": [
+    "unlimitedStorage",
+    "notifications"
+  ]
+}

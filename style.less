@@ -126,6 +126,10 @@ body{
     display:block;
     z-index:1;
     transition: height 1s;
+    background-image:url(gcts-logo-round-top.png);
+    background-position: -9000px 0;
+    background-size: 200px auto;
+    background-repeat:no-repeat;
   }
   &:after{
     height: 50vh;
@@ -138,6 +142,10 @@ body{
     display:block;
     z-index:1;
     transition: height 1s;
+    background-image:url(gcts-logo-round-bottom.png);
+    background-position: -9000px 0;
+    background-size: 200px auto;
+    background-repeat:no-repeat;
   }
 
   #logo{
@@ -201,18 +209,12 @@ body{
   &.open {
     &:before{
       height: 5vh;
-      background-image:url(gcts-logo-round-top.png);
       background-position: center bottom;
-      background-size: 200px auto;
-      background-repeat:no-repeat;
       border-bottom:3px solid #282828;
     }
     &:after {
       height: 5vh;
-      background-image:url(gcts-logo-round-bottom.png);
       background-position: center top;
-      background-size: 200px auto;
-      background-repeat:no-repeat;
       border-top:3px solid #282828;
     }
     #logo {
