@@ -298,12 +298,12 @@ body {
   display: block;
 }
 #overlay.spin #logo div:before {
-  -webkit-animation: spinX 1s;
-  animation: spinX 1s;
+  -webkit-animation: spinX 1s forwards;
+  animation: spinX 1s forwards;
 }
 #overlay.spin-end #logo div:before {
-  -webkit-animation: spinCC 1s;
-  animation: spinCC 1s;
+  -webkit-animation: spinCC 1s forwards;
+  animation: spinCC 1s forwards;
 }
 #overlay.close:before {
   background-position: center bottom;
