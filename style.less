@@ -192,8 +192,18 @@ body{
     #logo {
       div {
         &:before {
-          -webkit-animation: spinX 1s infinite;
-          animation: spinX 1s infinite;
+          -webkit-animation: spinX 1s;
+          animation: spinX 1s;
+        }
+      }
+    }
+  }
+  &.spin-end {
+    #logo {
+      div {
+        &:before {
+          -webkit-animation: spinCC 1s;
+          animation: spinCC 1s;
         }
       }
     }

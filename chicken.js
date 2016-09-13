@@ -68,14 +68,14 @@ var TechSpaceChicken = (function () {
         opening = false;
         $overlay.removeClass('open').addClass('close');
         setTimeout(function(){
-            $overlay.removeClass('close');
+            $overlay.removeClass('close').addClass('spin-end');
             clearForms();
         },1000);
     }
     function openOverlay(){
         if(opening)return;
         opening = true;
-        $overlay.addClass('spin');
+        $overlay.removeClass('spin-end').addClass('spin');
         setTimeout(function(){
             $overlay.removeClass('spin').addClass('open');
             addMessage('Welcome David!');
