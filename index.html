@@ -22,7 +22,7 @@
     </ul>
 </div>
 
-<script type="html/tpl" id="form-section-template">
+<script type="html/tpl" id="form-section-message">
 	<li class="section">
         <div class="message">
             <div class="content">
@@ -37,13 +37,34 @@
         <div class="question">
             <div class="content">
                 <div class="wrap">
-                    <h2>How long will you be here today?</h2>
-                    <div class="answers timer-buttons">
-                        <button>Quick visit</button>
-                        <button>An hour</button>
-                        <button>A few hours</button>
-                        <button>Not Sure</button>
-                    </div>
+                    <h2>{text}</h2>
+                    {answers}
+
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+
+<script type="html/tpl" id="form-section-input">
+	<li class="section bigger">
+        <div class="input">
+            <div class="content">
+                <div class="wrap">
+                    <h2>{text}</h2>
+                    <input type="text" name="input"> <button>Next</button>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+
+<script type="html/tpl" id="form-section-loading">
+	<li class="section bigger">
+        <div class="loading">
+            <div class="content">
+                <div class="wrap">
+                    <div class="spinner"></div>
                 </div>
             </div>
         </div>
@@ -51,6 +72,7 @@
 </script>
 
 <script type="text/javascript" src="jquery.js"></script>
+<script src="mqttws31.js" type="text/javascript"></script>
 <script type="text/javascript" src="chicken.js"></script>
 <script type="text/javascript">
     TechSpaceChicken.init();
