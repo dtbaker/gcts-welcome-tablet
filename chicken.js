@@ -70,6 +70,7 @@ var TechSpaceChicken = (function () {
         port: 9001
     };
     var current_rfid = '';
+    var printMessageTimeout = 2000;
 
     function template(template_id, contents){
         var html = $('#' + template_id).html();
@@ -89,10 +90,18 @@ var TechSpaceChicken = (function () {
             $form_sections.find('li.section').remove();
         },390);
     }
-    function addMessage(message){
+    function addMessage(message, messageOptions){
         var $message = $(template('form-section-message', {
             'content': message
         }));
+        if(messageOptions && typeof messageOptions['once'] != 'undefined'){
+            setTimeout(function(){
+                $message.addClass('bounce-out');
+                setTimeout(function(){
+                    $message.remove();
+                },390);
+            },printMessageTimeout);
+        }
         $form_sections.append($message);
         setTimeout(function(){
             $message.addClass('added');
@@ -103,6 +112,9 @@ var TechSpaceChicken = (function () {
 
     }
     function addInput(data){
+        if(typeof data['value'] == 'undefined'){
+            data['value'] = '';
+        }
         var $message = $(template('form-section-input', data));
         $form_sections.append($message);
         setTimeout(function(){
@@ -140,6 +152,33 @@ var TechSpaceChicken = (function () {
 
     }
 
+    function answerInput(){
+        // post this to server.
+        var callback = $(this).parent().data('callback');
+        var answerValue = $(this).parent().find('input').val();
+
+        clearForms();
+        setTimeout(function(){
+            addLoading();
+            $.post( "http://" + config['host'] + config['path'] + 'api.php',
+                {
+                    rfid: current_rfid,
+                    callback: callback,
+                    answer: answerValue
+                }).done(function (data) {
+                clearForms();
+                setTimeout(function(){
+                    if(data.messages){
+                        queueMessages(data.messages);
+                    }
+
+                },410);
+            });
+
+        },410);
+
+    }
+
     function addQuestion(data){
         var $answers = $('<div class="answers"></div>');
         $answers.attr('data-callback', data.callback);
@@ -160,12 +199,8 @@ var TechSpaceChicken = (function () {
     function addLoading(){
         var $message = $(template('form-section-loading', {}));
         $form_sections.append($message);
-        setTimeout(function(){
-            $message.addClass('added');
-        },300);
-        setTimeout(function(){
-            $message.addClass('bounce-in');
-        },600);
+        $message.addClass('added');
+        $message.addClass('bounce-in');
     }
 
     function closeOverlay(){
@@ -179,6 +214,28 @@ var TechSpaceChicken = (function () {
     }
     function loading(){
         $overlay.removeClass('spin-end').addClass('spin');
+    }
+    function openGuestMode(){
+
+        if(currently_checking_in)return;
+        loading();
+
+        currently_checking_in = true;
+        current_rfid = 'guest';
+
+        $.post( "http://" + config['host'] + config['path'] + 'api.php',
+            {
+                checkpoint: 'ci',
+                rfid: current_rfid
+            }).done(function (data) {
+            // once details arive open the overlay.
+            openOverlay();
+            if(data.messages){
+                queueMessages(data.messages);
+            }else{
+                addMessage('Error');
+            }
+        });
     }
     function openOverlay(){
         if(opening)return;
@@ -196,7 +253,7 @@ var TechSpaceChicken = (function () {
         if(currentMessage){
             switch(currentMessage.type){
                 case 'message':
-                    addMessage(currentMessage.text);
+                    addMessage(currentMessage.text, currentMessage);
                     break;
                 case 'input':
                     addInput(currentMessage);
@@ -206,6 +263,9 @@ var TechSpaceChicken = (function () {
                     break;
                 case 'function':
                     switch(currentMessage.function){
+                        case 'setManualRFID':
+                            current_rfid = currentMessage.value;
+                            break;
                         case "closeOverlay":
                             setTimeout(closeOverlay, parseInt(currentMessage.delay));
                             break;
@@ -213,12 +273,12 @@ var TechSpaceChicken = (function () {
                     break;
             }
         }
-        setTimeout(printMessages,2000);
+        setTimeout(printMessages, currentMessage && typeof currentMessage.delay != 'undefined' ? currentMessage.delay : printMessageTimeout);
     }
     var t = this;
     function registerClickEvents() {
-        //$('#logo > div').on( touch_or_click, openOverlay );
-        $('#forms').on( touch_or_click, '.answers button', answerQuestion );
+        $('#logo > div').on( touch_or_click, openGuestMode );
+        $('#forms').on( touch_or_click, '.answers button', answerQuestion ).on( touch_or_click, '.input button', answerInput );
     }
     function connectMQTT(){
         ChickenMQTT.init();
@@ -230,6 +290,7 @@ var TechSpaceChicken = (function () {
                         switch(bits[0]){
                             case 'ci':
                             case 'room-3':
+                            case 'door':
                             case 'checkin':
                                 // set loading animation.
                                 if(currently_checking_in){

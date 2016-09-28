@@ -137,6 +137,18 @@ body {
   color: #FFF;
   font-family: 'Roboto', sans-serif;
 }
+.cancel-button {
+  border: 3px solid #282828;
+  background: #1E201F;
+  color: #aba1a1;
+  font-size: 22px;
+  padding: 20px;
+  margin: 5px;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 4;
+  text-decoration: none;
+}
 #forms {
   position: absolute;
   top: 12vh;
@@ -218,6 +230,19 @@ body {
   vertical-align: middle;
   opacity: 0;
 }
+#forms > ul > li > div.input > div.content {
+  vertical-align: top;
+}
+#forms > ul > li > div.input > div.content input,
+#forms > ul > li > div.input > div.content button {
+  background: #EFEFEF;
+  border: 0;
+  padding: 15px 20px;
+  font-size: 33px;
+  font-family: Roboto;
+  border-radius: 6px;
+  margin: 0 10px;
+}
 #overlay {
   position: absolute;
   top: 0;
@@ -298,8 +323,8 @@ body {
   display: block;
 }
 #overlay.spin #logo div:before {
-  -webkit-animation: spinX 10s infinite linear;
-  animation: spinX 10s infinite linear;
+  -webkit-animation: spinX 4s infinite linear;
+  animation: spinX 4s infinite linear;
 }
 #overlay.spin-end #logo div:before {
   -webkit-animation: spinCC 1s forwards;

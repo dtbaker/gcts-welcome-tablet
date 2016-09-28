@@ -11,6 +11,7 @@
 <body>
 
 <div id="overlay">
+    <a href="index.html" class="cancel-button">Reset</a>
     <div id="logo">
         <div></div>
     </div>
@@ -50,9 +51,9 @@
 	<li class="section bigger">
         <div class="input">
             <div class="content">
-                <div class="wrap">
+                <div class="wrap" data-callback="{callback}">
                     <h2>{text}</h2>
-                    <input type="text" name="input"> <button>Next</button>
+                    <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="{tag}" name="input" value="{value}"> <button>{button}</button>
                 </div>
             </div>
         </div>
