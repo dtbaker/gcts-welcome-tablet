@@ -4,7 +4,7 @@ var touch_or_click = 'click';
 var ChickenMQTT = (function(){
 
     var client;
-    var reconnectTimeout = 20000;
+    var reconnectTimeout = 5000;
     var callbacks=[];
 
     function connect() {
@@ -23,14 +23,15 @@ var ChickenMQTT = (function(){
                 mqtt.subscribe('#', {qos: 0});
             },
             onFailure: function (message) {
-                alert('Failed to connect to MQTT');
+                //alert('Failed to connect to MQTT');
                 setTimeout(connect, reconnectTimeout);
             }
         };
 
         mqtt.onConnectionLost = function(response) {
             setTimeout(connect, reconnectTimeout);
-            alert('MQTT Connection Lost');
+            //alert('MQTT Connection Lost');
+            window.location.href='index.html';
         };
 
         mqtt.onMessageArrived = function (message) {
