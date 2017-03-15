@@ -4,10 +4,12 @@ var touch_or_click = 'click';
 var ChickenMQTT = (function(){
 
     var client;
-    var reconnectTimeout = 5000;
+    var reconnectTimeout = 3000;
     var callbacks=[];
 
     function connect() {
+
+        $('#console').text('MQTT Reconnecting...');
 
         mqtt = new Paho.MQTT.Client(
             TechSpaceChicken.get_config('host'),
@@ -20,6 +22,7 @@ var ChickenMQTT = (function(){
             useSSL: false,
             cleanSession: true,
             onSuccess: function(){
+                $('#console').text('');
                 mqtt.subscribe('#', {qos: 0});
             },
             onFailure: function (message) {
@@ -30,14 +33,17 @@ var ChickenMQTT = (function(){
 
         mqtt.onConnectionLost = function(response) {
             setTimeout(connect, reconnectTimeout);
+            console.log("Connection lost...");
+            $('#console').text('MQTT Connection Lost. Check WIFI is working and try the Reset button.');
             //alert('MQTT Connection Lost');
-            window.location.href='index.html';
+            //window.location.href='index.html';
         };
 
         mqtt.onMessageArrived = function (message) {
             var topic = message.destinationName;
             var payload = message.payloadString;
             console.log(topic + ' = ' + payload );
+            //$('#console').text('Debug: MQTT Received: ' + topic + ' = ' + payload);
             for(var i in callbacks){
                 if(callbacks.hasOwnProperty(i)){
                     callbacks[i](topic, payload);
@@ -71,7 +77,36 @@ var TechSpaceChicken = (function () {
         port: 9001
     };
     var current_rfid = '';
-    var printMessageTimeout = 2000;
+    var printMessageTimeout = 500;
+    var userCheckinTimeout = 30000;
+    var userTimeoutTimer = null;
+
+    function startUiTimeout(){
+
+        if(userTimeoutTimer)clearTimeout( userTimeoutTimer );
+
+        $('#timeout').addClass('loading');
+        userTimeoutTimer = setTimeout( function(){
+            //$('#timeout').removeClass('loading');
+            $('#console').text('Interface timeout, resetting...');
+            window.location.href = 'index.html';
+        }, userCheckinTimeout );
+    }
+
+    function endUiTimeout(){
+
+        if(userTimeoutTimer)clearTimeout( userTimeoutTimer );
+        $('#timeout').removeClass('loading');
+    }
+
+    function wakeupUi(){
+        // cancel the timeout
+        if(userTimeoutTimer)clearTimeout( userTimeoutTimer );
+        $('#timeout').removeClass('loading');
+        userTimeoutTimer = setTimeout( function(){
+            startUiTimeout();
+        }, 5000 );
+    }
 
     function template(template_id, contents){
         var html = $('#' + template_id).html();
@@ -206,6 +241,7 @@ var TechSpaceChicken = (function () {
 
     function closeOverlay(){
         opening = false;
+        endUiTimeout();
         currently_checking_in = false;
         $overlay.removeClass('open').addClass('close');
         setTimeout(function(){
@@ -220,6 +256,7 @@ var TechSpaceChicken = (function () {
 
         if(currently_checking_in)return;
         loading();
+
 
         currently_checking_in = true;
         current_rfid = 'guest';
@@ -241,6 +278,7 @@ var TechSpaceChicken = (function () {
     function openOverlay(){
         if(opening)return;
         opening = true;
+        startUiTimeout();
         $overlay.removeClass('spin').addClass('open');
 
     }
@@ -279,6 +317,10 @@ var TechSpaceChicken = (function () {
     var t = this;
     function registerClickEvents() {
         $('#logo > div').on( touch_or_click, openGuestMode );
+        $('body').on( touch_or_click, wakeupUi );
+        $(document).keydown(function(e) {
+            wakeupUi();
+        });
         $('#forms').on( touch_or_click, '.answers button', answerQuestion ).on( touch_or_click, '.input button', answerInput );
     }
     function connectMQTT(){

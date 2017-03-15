@@ -9,7 +9,6 @@ require_once '/opt/php-door/inc.php';
 $result = array();
 $result['messages'] = array();
 
-sleep(1);
 
 header('Content-type: text/json');
 
@@ -180,7 +179,7 @@ switch($callback) {
 		$result['messages'][] = array(
 			'type'     => 'function',
 			'function' => 'closeOverlay',
-			'delay'    => 2000
+			'delay'    => 800
 		);
 
 
@@ -190,15 +189,15 @@ switch($callback) {
 
 		if(!$member){
 			// guest mode. send welcome back along with signup form fields.
-			$result['messages'][] = array(
+			/*$result['messages'][] = array(
 				'type' => 'message',
 				'text' => 'Welcome!',
 				'once' => 'yes',
-			);
+			);*/
 			$result['messages'][] = array(
 				'type' => 'input',
 				'tag' => 'email',
-				'text' => 'What is your email address?',
+				'text' => 'Welcome Guest! What is your email address?',
 				'pause' => true,
 				'callback' => 'validate_email',
 				'button' => 'Next',
@@ -216,13 +215,13 @@ switch($callback) {
 			if($member['membership_expiry_days'] > 0) {
 				$result['messages'][] = array(
 					'type' => 'message',
-					'text' => 'Your membership expires in <strong>' . (int)$member['membership_expiry_days'].'</strong> days.',
+					'text' => 'Membership Status: Full Member (<strong>' . (int)$member['membership_expiry_days'].'</strong> days left).',
 				);
 			}else{
 				$result['messages'][] = array(
 					'type' => 'message',
 					'warning' => true,
-					'text' => 'Your membership has expired! Please renew :) ',
+					'text' => 'Membership Status: Free Guest ',
 				);
 			}
 
