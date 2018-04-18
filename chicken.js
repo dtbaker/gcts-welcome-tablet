@@ -73,7 +73,8 @@ var TechSpaceChicken = (function () {
     var currently_checking_in = false;
     var config = {
         host: '10.0.1.254',
-        path: '/checkin/',
+        webport: 81,
+        path: '/',
         port: 9001
     };
     var current_rfid = '';
@@ -169,7 +170,7 @@ var TechSpaceChicken = (function () {
         clearForms();
         setTimeout(function(){
             addLoading();
-            $.post( "http://" + config['host'] + config['path'] + 'api.php',
+            $.post( "http://" + config['host'] + ':' + config['webport'] + config['path'] + 'api.php',
                 {
                     rfid: current_rfid,
                     callback: callback,
@@ -196,7 +197,7 @@ var TechSpaceChicken = (function () {
         clearForms();
         setTimeout(function(){
             addLoading();
-            $.post( "http://" + config['host'] + config['path'] + 'api.php',
+            $.post( "http://" + config['host'] + ':' + config['webport'] + config['path'] + 'api.php',
                 {
                     rfid: current_rfid,
                     callback: callback,
@@ -261,7 +262,7 @@ var TechSpaceChicken = (function () {
         currently_checking_in = true;
         current_rfid = 'guest';
 
-        $.post( "http://" + config['host'] + config['path'] + 'api.php',
+        $.post( "http://" + config['host'] + ':' + config['webport'] + config['path'] + 'api.php',
             {
                 checkpoint: 'ci',
                 rfid: current_rfid
@@ -345,7 +346,7 @@ var TechSpaceChicken = (function () {
                                 // pull details from ajax.
                                 current_rfid = bits[1];
 
-                                $.post( "http://" + config['host'] + config['path'] + 'api.php',
+                                $.post( "http://" + config['host'] + ':' + config['webport'] + config['path'] + 'api.php',
                                 {
                                     checkpoint: bits[0],
                                     rfid: current_rfid

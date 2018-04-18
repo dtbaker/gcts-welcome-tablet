@@ -1,10 +1,12 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+
 session_start();
 
 // loads same local member cache as the RFID door access system:
 // https://github.com/dtbaker/techspace-door-php
-require_once '/opt/php-door/inc.php';
+require_once '/srv/www/door-server/inc.php';
 
 $result = array();
 $result['messages'] = array();
@@ -20,6 +22,15 @@ $visit_times = array(
 	'An hour',
 	'A few hours',
 	'Not sure',
+);
+$slackanswers = array(
+	'Yes Please',
+	'No Thanks',
+	'Already On',
+);
+$notifyanswers = array(
+	'Yes',
+	'Nope',
 );
 $how_long_question = array(
 	'type' => 'question',
@@ -51,7 +62,7 @@ switch($callback) {
 				case 'success':
 					$result['messages'][]     = array(
 						'type' => 'message',
-						'text' => 'Thanks '.htmlspecialchars($name).'!',
+						'text' => 'Thanks '.htmlspecialchars($name).'! Check your email.',
 					);
 					$result['messages'][] = $how_long_question;
 					break;
@@ -137,7 +148,7 @@ switch($callback) {
 				$result['messages'][]     = array(
 					'type'     => 'input',
 					'tag' => 'text',
-					'text'     => 'What is your name (or nickname)?',
+					'text'     => 'What is your name?',
 					'pause'    => true,
 					'callback' => 'validate_name',
 					'button'   => 'Next',
@@ -158,6 +169,28 @@ switch($callback) {
 
 
 		break;
+	case 'validate_slack':
+
+
+		wordpress_api( $rfid . '/ci', array(
+			'answer_question' => 'slack',
+			'slackresponse'         => $slackanswers[ $answer ],
+		) );
+
+		$name_bits = explode( ' ', $member['member_name'] );
+
+		$result['messages'][] = array(
+			'type' => 'message',
+			'text' => 'Thanks ' . htmlspecialchars( $name_bits[0] ) . '!',
+		);
+		$result['messages'][] = array(
+			'type'     => 'function',
+			'function' => 'closeOverlay',
+			'delay'    => 800
+		);
+
+
+		break;
 	case 'validate_time':
 		// user selected $answer index in $visit_times
 		// post this to slack? post this to wordpress as well for logging.
@@ -170,17 +203,29 @@ switch($callback) {
 			'time'         => $visit_times[ $answer ],
 		) );
 
-		$name_bits = explode(' ',$member['member_name']);
+		// are there any questions for this member?
+		if(empty($member['slack'])){
+			$result['messages'][] = array(
+				'type' => 'question',
+				'text' => 'Would you like an invite to our Slack chat room?',
+				'answers' => $slackanswers,
+				'pause' => true,
+				'callback' => 'validate_slack',
+			);
+		}else {
 
-		$result['messages'][] = array(
-			'type' => 'message',
-			'text' => 'Thanks ' . htmlspecialchars( $name_bits[0] ) . '!',
-		);
-		$result['messages'][] = array(
-			'type'     => 'function',
-			'function' => 'closeOverlay',
-			'delay'    => 800
-		);
+			$name_bits = explode( ' ', $member['member_name'] );
+
+			$result['messages'][] = array(
+				'type' => 'message',
+				'text' => 'Thanks ' . htmlspecialchars( $name_bits[0] ) . '!',
+			);
+			$result['messages'][] = array(
+				'type'     => 'function',
+				'function' => 'closeOverlay',
+				'delay'    => 800
+			);
+		}
 
 
 		break;
@@ -197,7 +242,7 @@ switch($callback) {
 			$result['messages'][] = array(
 				'type' => 'input',
 				'tag' => 'email',
-				'text' => 'Welcome Guest! What is your email address?',
+				'text' => 'Welcome! What is your email address?',
 				'pause' => true,
 				'callback' => 'validate_email',
 				'button' => 'Next',
@@ -212,16 +257,24 @@ switch($callback) {
 				'text' => 'Welcome '.htmlspecialchars($name_bits[0]) .'!',
 			);
 
+			$wifi_password = wordpress_api( 'wifipassword', array(
+				'sdf'
+			) );
+
 			if($member['membership_expiry_days'] > 0) {
 				$result['messages'][] = array(
 					'type' => 'message',
 					'text' => 'Membership Status: Full Member (<strong>' . (int)$member['membership_expiry_days'].'</strong> days left).',
 				);
+				$result['messages'][] = array(
+					'type' => 'message',
+					'text' => 'Wifi Password: '.$wifi_password,
+				);
 			}else{
 				$result['messages'][] = array(
 					'type' => 'message',
 					'warning' => true,
-					'text' => 'Membership Status: Free Guest ',
+					'text' => 'Membership Status: Visitor ',
 				);
 			}
 
