@@ -72,7 +72,7 @@ var TechSpaceChicken = (function () {
     var opening = false;
     var currently_checking_in = false;
     var config = {
-        host: '10.0.1.254',
+        host: '10.0.1.254', // VPN: 192.168.88.87
         webport: 81,
         path: '/',
         port: 9001
