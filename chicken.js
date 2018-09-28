@@ -60,6 +60,11 @@ var ChickenMQTT = (function(){
         },
         callback: function(func){
             callbacks.push(func);
+        },
+        message: function(topic,message){
+          message = new Paho.MQTT.Message(message);
+          message.destinationName = topic;
+          mqtt.send(message);
         }
     }
 
@@ -72,13 +77,15 @@ var TechSpaceChicken = (function () {
     var opening = false;
     var currently_checking_in = false;
     var config = {
-        host: '10.0.1.254', // VPN: 192.168.88.87
+        host: '10.0.1.254', // Live
+        // host: '172.16.30.6', // Devices
+        //host: '92.168.88.87', // VPN: 1
         webport: 81,
         path: '/',
         port: 9001
     };
     var current_rfid = '';
-    var printMessageTimeout = 500;
+    var printMessageTimeout = 100;
     var userCheckinTimeout = 30000;
     var userTimeoutTimer = null;
 
@@ -368,12 +375,24 @@ var TechSpaceChicken = (function () {
 
     }
 
+    function registerLightEvents(){
+      $('body').on('click','.light-button',function(){
+        ChickenMQTT.message($(this).data('message'),'ON');
+      });
+    }
+
     return {
         get_config: function(key){ return config[key]; },
         closeOverlay: closeOverlay,
         init: function () {
             registerClickEvents();
             connectMQTT();
+            //
+            return true;
+        },
+        lights: function () {
+            connectMQTT();
+            registerLightEvents();
             //
             return true;
         }

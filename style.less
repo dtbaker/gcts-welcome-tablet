@@ -34,17 +34,20 @@ body{
     transition: all 30s ease;
   }
 }
-.cancel-button{
-  border: 3px solid #282828;
-  background: #1E201F;
-  color: #aba1a1;
-  font-size: 19px;
-  padding: 15px;
-  margin: 20px 5px 0 5px;
-  border-radius: 5px;
+#overlay-buttons{
   position: absolute;
   z-index: 4;
-  text-decoration: none;
+  a {
+    border: 3px solid #282828;
+    background: #1E201F;
+    color: #aba1a1;
+    font-size: 19px;
+    padding: 15px;
+    margin: 20px 5px 0 5px;
+    border-radius: 5px;
+    display: inline-block;
+    text-decoration: none;
+  }
 }
 #console{
   position: absolute;
@@ -308,7 +311,28 @@ body{
 }
 
 
+#content{
+  color: #FFF;
+  position: absolute;
+  z-index: 9;
+  top: 70px;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+  text-align: center;
+}
 
+.light-button{
+  border: 3px solid #282828;
+  background: #1E201F;
+  color: #aba1a1;
+  font-size: 19px;
+  padding: 15px;
+  margin: 20px 5px 0 5px;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+}
 
 
 

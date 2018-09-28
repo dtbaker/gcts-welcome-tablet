@@ -172,7 +172,11 @@ body {
   right: 0;
   transition: all 30s ease;
 }
-.cancel-button {
+#overlay-buttons {
+  position: absolute;
+  z-index: 4;
+}
+#overlay-buttons a {
   border: 3px solid #282828;
   background: #1E201F;
   color: #aba1a1;
@@ -180,8 +184,7 @@ body {
   padding: 15px;
   margin: 20px 5px 0 5px;
   border-radius: 5px;
-  position: absolute;
-  z-index: 4;
+  display: inline-block;
   text-decoration: none;
 }
 #console {
@@ -403,6 +406,27 @@ body {
 #overlay.open #logo div:before {
   background-image: none;
 }
+#content {
+  color: #FFF;
+  position: absolute;
+  z-index: 9;
+  top: 70px;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+  text-align: center;
+}
+.light-button {
+  border: 3px solid #282828;
+  background: #1E201F;
+  color: #aba1a1;
+  font-size: 19px;
+  padding: 15px;
+  margin: 20px 5px 0 5px;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+}
 .spinner {
   -webkit-animation: scaleOut 0.7s infinite ease-in-out;
   animation: scaleOut 0.7s infinite ease-in-out;
@@ -413,3 +437,4 @@ body {
   position: relative;
   margin: 100px auto;
 }
+/*# sourceMappingURL=style.css.map */
